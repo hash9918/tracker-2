@@ -1,0 +1,37 @@
+# --- Large Dependency Trees & Build Artifacts ---
+node_modules/
+.svelte-kit/
+.next/
+dist/
+build/
+out/
+target/
+bin/
+obj/
+
+
+
+# --- Mass Media & Assets (AI agents cannot parse raw binaries efficiently) ---
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.mp4
+*.pdf
+*.zip
+*.tar.gz
+
+# --- Package Lock Files ---
+# CRITICAL: Lockfiles are pure noise for an AI's planning loop. 
+# They can easily consume 50k+ tokens on a single look.
+
+yarn.lock
+pnpm-lock.yaml
+go.sum
+Cargo.lock
+
+# --- Application Logs & Databases ---
+*.log
+*.sqlite
+*.db

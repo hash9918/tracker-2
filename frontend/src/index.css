@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0c10;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2530;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Base Light Mode Styles (Toggle support) */
+html:not(.dark) {
+  --bg-color: #f8fafc;
+  --card-color: #ffffff;
+  --border-color: #e2e8f0;
+  --text-color: #0f172a;
+  --muted-color: #64748b;
+}
+
+html:not(.dark) body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+html:not(.dark) ::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+/* react-calendar-heatmap Overrides */
+.react-calendar-heatmap text {
+  font-size: 8px;
+  fill: #64748b;
+}
+
+/* Dark mode heatmap colors */
+.dark .react-calendar-heatmap .color-empty {
+  fill: #1e2530;
+}
+.dark .react-calendar-heatmap .color-scale-1 {
+  fill: #00422c; /* Faint Green */
+}
+.dark .react-calendar-heatmap .color-scale-2 {
+  fill: #00734c; /* Medium Green */
+}
+.dark .react-calendar-heatmap .color-scale-3 {
+  fill: #00b375; /* Bright Green */
+}
+.dark .react-calendar-heatmap .color-scale-4 {
+  fill: #00e5a0; /* Full Accent Green */
+}
+
+/* Light mode heatmap colors */
+html:not(.dark) .react-calendar-heatmap .color-empty {
+  fill: #e2e8f0;
+}
+html:not(.dark) .react-calendar-heatmap .color-scale-1 {
+  fill: #d1fae5; /* Faint Green */
+}
+html:not(.dark) .react-calendar-heatmap .color-scale-2 {
+  fill: #6ee7b7; /* Medium Green */
+}
+html:not(.dark) .react-calendar-heatmap .color-scale-3 {
+  fill: #34d399; /* Bright Green */
+}
+html:not(.dark) .react-calendar-heatmap .color-scale-4 {
+  fill: #059669; /* Full Green */
+}
+
+.react-calendar-heatmap rect {
+  rx: 2px;
+  ry: 2px;
+  transition: fill 0.2s ease, transform 0.1s ease;
+}
+
+.react-calendar-heatmap rect:hover {
+  stroke: #00e5a0;
+  stroke-width: 1px;
+}
+
+/* Block completion animation */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 229, 160, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(0, 229, 160, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 229, 160, 0);
+  }
+}
+
+.animate-glow {
+  animation: pulseGlow 1.5s infinite;
+}
