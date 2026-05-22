@@ -6,7 +6,7 @@ StudyTracker is a modern, responsive **MERN (MongoDB, Express, React, Node.js)**
 
 ## 🚀 Live Demo & Deployment
 
-🔗 **Live Link:** [ https://tracker-2-beta.vercel.app/ ]()
+🔗 **Live Link:** [ https://tracker-2-beta.vercel.app ]()
 🔗 **Server Link:** [ https://tracker-2-3wsf.onrender.com ] 
 
 
