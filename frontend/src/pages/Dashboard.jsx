@@ -19,6 +19,7 @@ const Dashboard = () => {
     return `${y}-${m}-${day}`;
   };
 
+
   const todayStr = getTodayDateStr();
 
   // 2. Format today's date for display (e.g., "Wednesday, May 20, 2026")
@@ -106,7 +107,7 @@ const Dashboard = () => {
     try {
       const response = await api.post(`/api/daylog/${todayStr}/sync`);
       setLog(response.data);
-      
+
       const statsRes = await api.get('/api/heatmap');
       setStreak(statsRes.data.streak);
       setError('');
