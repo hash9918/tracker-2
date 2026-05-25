@@ -105,21 +105,37 @@ router.post('/:date/sync', protect, async (req, res) => {
       templateBlocks = template[dayOfWeek] || [];
     }
 
+    let log = await DayLog.findOne({ user: userId, date: dateStr });
+
+    // Map existing block completion states to keep user progress
+    const existingCompletedMap = new Map();
+    if (log) {
+      log.blocks.forEach((block) => {
+        existingCompletedMap.set(block.blockId, block.completed);
+      });
+    }
+
     const dayBlocks = templateBlocks.map((block) => ({
       blockId: block.blockId,
       label: block.label,
       start: block.start,
       end: block.end,
       color: block.color,
-      completed: false,
+      completed: existingCompletedMap.get(block.blockId) || false,
     }));
 
-    let log = await DayLog.findOne({ user: userId, date: dateStr });
-    
+    // Re-calculate completion statistics
+    const totalBlocks = dayBlocks.length;
+    const completedBlocks = dayBlocks.filter(b => b.completed).length;
+    const completionPercent = totalBlocks > 0 
+      ? Math.round((completedBlocks / totalBlocks) * 100) 
+      : 0;
+    const checkedIn = completedBlocks > 0;
+
     if (log) {
       log.blocks = dayBlocks;
-      log.completionPercent = 0;
-      log.checkedIn = false;
+      log.completionPercent = completionPercent;
+      log.checkedIn = checkedIn;
       await log.save();
     } else {
       log = await DayLog.create({
@@ -127,8 +143,8 @@ router.post('/:date/sync', protect, async (req, res) => {
         date: dateStr,
         dayOfWeek,
         blocks: dayBlocks,
-        completionPercent: 0,
-        checkedIn: false,
+        completionPercent,
+        checkedIn,
       });
     }
 
