@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../context/AuthContext';
-import { ArrowUp, ArrowDown, Trash2, Plus, Clock, Tag, Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowUp, ArrowDown, Trash2, Plus, Clock, Tag, Sparkles, ArrowRight, Pencil } from 'lucide-react';
 
 const DAYS = [
   { key: 'monday', label: 'MON' },
@@ -41,6 +41,7 @@ const ScheduleBuilder = () => {
   const [startTime, setStartTime] = useState('09:00');
   const [endTime, setEndTime] = useState(''); // Keep blank by default
   const [selectedColor, setSelectedColor] = useState(COLORS[0]);
+  const [editingBlockId, setEditingBlockId] = useState(null);
 
   // Fetch full template on mount
   useEffect(() => {
@@ -108,7 +109,28 @@ const ScheduleBuilder = () => {
     }
   };
 
-  const handleAddBlock = async (e) => {
+  const handleStartEdit = (block) => {
+    setEditingBlockId(block.blockId);
+    setLabel(block.label);
+    setStartTime(block.start);
+    setEndTime(block.end);
+    setSelectedColor(block.color);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingBlockId(null);
+    setLabel('');
+    if (blocks.length > 0) {
+      const lastBlock = blocks[blocks.length - 1];
+      setStartTime(advanceTime(lastBlock.end, 5));
+    } else {
+      setStartTime('09:00');
+    }
+    setEndTime('');
+    setSelectedColor(COLORS[0]);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -122,23 +144,44 @@ const ScheduleBuilder = () => {
       return;
     }
 
-    const newBlock = {
-      blockId: `block_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
-      label,
-      start: startTime,
-      end: endTime,
-      color: selectedColor
-    };
+    if (editingBlockId) {
+      const updated = blocks.map(b => b.blockId === editingBlockId ? {
+        ...b,
+        label,
+        start: startTime,
+        end: endTime,
+        color: selectedColor
+      } : b);
 
-    const updated = [...blocks, newBlock];
-    const success = await updateDayBlocks(updated);
-    
-    if (success) {
-      // Clear form inputs
-      setLabel('');
-      // Keep next start time advanced
-      setStartTime(advanceTime(endTime, 5));
-      setEndTime(''); // Keep blank
+      const success = await updateDayBlocks(updated);
+      if (success) {
+        setEditingBlockId(null);
+        setLabel('');
+        if (updated.length > 0) {
+          const lastBlock = updated[updated.length - 1];
+          setStartTime(advanceTime(lastBlock.end, 5));
+        } else {
+          setStartTime('09:00');
+        }
+        setEndTime('');
+      }
+    } else {
+      const newBlock = {
+        blockId: `block_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+        label,
+        start: startTime,
+        end: endTime,
+        color: selectedColor
+      };
+
+      const updated = [...blocks, newBlock];
+      const success = await updateDayBlocks(updated);
+      
+      if (success) {
+        setLabel('');
+        setStartTime(advanceTime(endTime, 5));
+        setEndTime('');
+      }
     }
   };
 
@@ -281,6 +324,17 @@ const ScheduleBuilder = () => {
                         <ArrowDown className="w-4 h-4" />
                       </button>
                       <button
+                        onClick={() => handleStartEdit(block)}
+                        className={`p-2 rounded-xl transition-all duration-150 ${
+                          editingBlockId === block.blockId
+                            ? 'bg-[#00e5a0]/20 text-[#00e5a0]'
+                            : 'text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-[#1e2530] hover:text-[#00e5a0]'
+                        }`}
+                        title="Edit Block"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button
                         onClick={() => handleDeleteBlock(block.blockId)}
                         className="p-2 rounded-xl text-slate-400 dark:text-slate-500 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-[#ff6b35] transition-colors"
                         title="Delete Block"
@@ -294,14 +348,23 @@ const ScheduleBuilder = () => {
             )}
           </div>
 
-          {/* Add Block Form Column */}
+          {/* Add/Edit Block Form Column */}
           <div className="bg-white dark:bg-[#161b24] border border-slate-200 dark:border-[#1e2530] rounded-3xl p-6 shadow-sm h-fit">
             <h3 className="text-lg font-bold text-slate-800 dark:text-[#e2e8f0] mb-5 flex items-center">
-              <Plus className="w-5 h-5 mr-1.5 text-[#00e5a0]" />
-              Add Time Block
+              {editingBlockId ? (
+                <>
+                  <Pencil className="w-5 h-5 mr-1.5 text-[#00e5a0]" />
+                  Edit Time Block
+                </>
+              ) : (
+                <>
+                  <Plus className="w-5 h-5 mr-1.5 text-[#00e5a0]" />
+                  Add Time Block
+                </>
+              )}
             </h3>
 
-            <form onSubmit={handleAddBlock} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {/* Label */}
               <div>
                 <label className="block text-xs font-bold text-slate-600 dark:text-[#64748b] uppercase tracking-wider mb-2">
@@ -376,14 +439,34 @@ const ScheduleBuilder = () => {
                 </div>
               </div>
 
-              {/* Add Button */}
-              <button
-                type="submit"
-                className="w-full py-3.5 mt-2 rounded-2xl bg-[#00e5a0] hover:bg-[#00c98c] text-black font-extrabold text-sm shadow-md transition-all duration-150 flex items-center justify-center"
-              >
-                <Plus className="w-4 h-4 mr-2 stroke-[3]" />
-                Add to {selectedDay}
-              </button>
+              {/* Action Buttons */}
+              <div className="flex flex-col gap-2 mt-2">
+                <button
+                  type="submit"
+                  className="w-full py-3.5 rounded-2xl bg-[#00e5a0] hover:bg-[#00c98c] text-black font-extrabold text-sm shadow-md transition-all duration-150 flex items-center justify-center"
+                >
+                  {editingBlockId ? (
+                    <>
+                      <Pencil className="w-4 h-4 mr-2 stroke-[3]" />
+                      Save Changes
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4 mr-2 stroke-[3]" />
+                      Add to {selectedDay}
+                    </>
+                  )}
+                </button>
+                {editingBlockId && (
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    className="w-full py-2.5 rounded-2xl bg-slate-100 dark:bg-[#1e2530] hover:bg-slate-200 dark:hover:bg-[#283141] text-slate-700 dark:text-slate-300 font-extrabold text-sm transition-all duration-150 flex items-center justify-center"
+                  >
+                    Cancel Edit
+                  </button>
+                )}
+              </div>
             </form>
           </div>
 
