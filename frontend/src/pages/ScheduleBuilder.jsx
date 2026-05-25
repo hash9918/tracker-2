@@ -9,7 +9,8 @@ const DAYS = [
   { key: 'wednesday', label: 'WED' },
   { key: 'thursday', label: 'THU' },
   { key: 'friday', label: 'FRI' },
-  { key: 'saturday', label: 'SAT' }
+  { key: 'saturday', label: 'SAT' },
+  { key: 'sunday', label: 'SUN' }
 ];
 
 const COLORS = [
@@ -23,7 +24,7 @@ const COLORS = [
 ];
 
 const getCurrentDayKey = () => {
-  const days = ['monday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   const dayIndex = new Date().getDay(); // 0 is Sunday, 1 is Monday, etc.
   return days[dayIndex];
 };

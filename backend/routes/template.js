@@ -3,7 +3,7 @@ const router = express.Router();
 const ScheduleTemplate = require('../models/ScheduleTemplate');
 const { protect } = require('../middleware/auth');
 
-const VALID_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+const VALID_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 // @route   GET /api/template
 // @desc    Get user weekly schedule template
@@ -22,6 +22,7 @@ router.get('/', protect, async (req, res) => {
         thursday: [],
         friday: [],
         saturday: [],
+        sunday: [],
       });
     }
 

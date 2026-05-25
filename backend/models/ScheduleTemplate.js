@@ -38,6 +38,7 @@ const ScheduleTemplateSchema = new mongoose.Schema(
     thursday: [BlockSchema],
     friday: [BlockSchema],
     saturday: [BlockSchema],
+    sunday: [BlockSchema],
   },
   {
     timestamps: true,

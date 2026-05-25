@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const DayLog = require('../models/DayLog');
+const ScheduleTemplate = require('../models/ScheduleTemplate');
 const { protect } = require('../middleware/auth');
 
 // Helper to format Date in local timezone
@@ -47,6 +48,10 @@ router.get('/', protect, async (req, res) => {
     });
 
     // 3. Smart Streak Calculation (counting backwards)
+    // Fetch user schedule template to see if they study on Sunday
+    const template = await ScheduleTemplate.findOne({ user: userId });
+    const hasSundayBlocks = template && template.sunday && template.sunday.length > 0;
+
     let streak = 0;
     let checkDate = new Date(); // Today
     let todayStr = formatDateLocal(checkDate);
@@ -84,7 +89,7 @@ router.get('/', protect, async (req, res) => {
         // No log exists for this date.
         // Let's check what day of the week it is. If it's a Sunday, we can skip it.
         const dayOfWeek = checkDate.getDay(); // 0 is Sunday
-        if (dayOfWeek === 0) {
+        if (dayOfWeek === 0 && !hasSundayBlocks) {
           checkDate.setDate(checkDate.getDate() - 1);
           daysTraversed++;
           continue;

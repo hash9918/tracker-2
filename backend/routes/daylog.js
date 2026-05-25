@@ -35,7 +35,7 @@ router.get('/:date', protect, async (req, res) => {
     
     // Copy the blocks from template for the specific day of week
     let templateBlocks = [];
-    if (template && dayOfWeek !== 'sunday') {
+    if (template) {
       templateBlocks = template[dayOfWeek] || [];
     }
 
@@ -101,7 +101,7 @@ router.post('/:date/sync', protect, async (req, res) => {
     const template = await ScheduleTemplate.findOne({ user: userId });
     
     let templateBlocks = [];
-    if (template && dayOfWeek !== 'sunday') {
+    if (template) {
       templateBlocks = template[dayOfWeek] || [];
     }
 

@@ -49,6 +49,7 @@ router.post('/register', async (req, res) => {
       thursday: [],
       friday: [],
       saturday: [],
+      sunday: [],
     });
 
     if (user) {
