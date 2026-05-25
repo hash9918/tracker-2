@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ScheduleBuilder from './pages/ScheduleBuilder';
 import HeatmapView from './pages/HeatmapView';
+import Backlog from './pages/Backlog';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/schedule" element={<ScheduleBuilder />} />
             <Route path="/heatmap" element={<HeatmapView />} />
+            <Route path="/backlog" element={<Backlog />} />
           </Route>
 
           {/* Fallback Redirects */}

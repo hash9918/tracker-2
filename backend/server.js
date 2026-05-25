@@ -17,6 +17,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/template', require('./routes/template'));
 app.use('/api/daylog', require('./routes/daylog'));
 app.use('/api/heatmap', require('./routes/heatmap'));
+app.use('/api/backlog', require('./routes/backlog'));
 
 // Basic health check route
 app.get('/health', (req, res) => {
