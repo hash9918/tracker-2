@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Sun, Moon, LogOut, Calendar, LayoutDashboard, Settings, Archive } from 'lucide-react';
+import { Sun, Moon, LogOut, Calendar, LayoutDashboard, Settings, Archive, History } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -94,6 +94,19 @@ const Navbar = () => {
                 <Archive className="w-4 h-4 mr-2" />
                 Future Vault
               </NavLink>
+
+              <NavLink
+                to="/history"
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
+                    ? 'bg-[#00e5a0]/10 text-[#00e5a0] border border-[#00e5a0]/20'
+                    : 'hover:bg-slate-100 dark:hover:bg-[#1e2530] text-slate-600 dark:text-slate-400'
+                  }`
+                }
+              >
+                <History className="w-4 h-4 mr-2" />
+                Session Replay
+              </NavLink>
             </div>
           )}
 
@@ -179,6 +192,15 @@ const Navbar = () => {
               }
             >
               Future Vault
+            </NavLink>
+            <NavLink
+              to="/history"
+              className={({ isActive }) =>
+                `flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold ${isActive ? 'bg-[#00e5a0]/10 text-[#00e5a0]' : 'text-slate-600 dark:text-slate-400'
+                }`
+              }
+            >
+              Replay
             </NavLink>
           </div>
         )}

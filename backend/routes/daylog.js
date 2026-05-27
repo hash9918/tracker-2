@@ -200,4 +200,48 @@ router.patch('/:date/block/:blockId', protect, async (req, res) => {
   }
 });
 
+// @route   PATCH /api/daylog/:date/review
+// @desc    Update mood and productivity score for a date
+// @access  Private
+router.patch('/:date/review', protect, async (req, res) => {
+  const dateStr = req.params.date;
+  const { mood, productivityScore, reflectionNote } = req.body;
+  const userId = req.user._id;
+
+  try {
+    // 1. Reject invalid dates early
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD' });
+    }
+
+    // 2. Validate mood
+    if (mood !== undefined && !['focused', 'okay', 'tired', 'stressed', 'energetic', ''].includes(mood)) {
+      return res.status(400).json({ message: 'Invalid mood selection' });
+    }
+
+    // 3. Validate productivity score
+    if (productivityScore !== undefined && productivityScore !== null) {
+      const score = Number(productivityScore);
+      if (isNaN(score) || score < 1 || score > 10) {
+        return res.status(400).json({ message: 'Productivity score must be between 1 and 10' });
+      }
+    }
+
+    const log = await DayLog.findOne({ user: userId, date: dateStr });
+    if (!log) {
+      return res.status(404).json({ message: 'Day log not found' });
+    }
+
+    if (mood !== undefined) log.mood = mood;
+    if (productivityScore !== undefined) log.productivityScore = productivityScore;
+    if (reflectionNote !== undefined) log.reflectionNote = reflectionNote;
+
+    await log.save();
+    res.json(log);
+  } catch (error) {
+    console.error(`Error saving review for ${dateStr}:`, error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;
