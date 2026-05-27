@@ -11,7 +11,7 @@ import Backlog from './pages/Backlog';
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-[#e2e8f0] font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0c10] text-slate-800 dark:text-[#e2e8f0] font-sans transition-colors duration-300">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <Routes>
