@@ -9,6 +9,39 @@ const Dashboard = () => {
   const [streak, setStreak] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [mood, setMood] = useState('');
+  const [productivityScore, setProductivityScore] = useState(null);
+  const [reflectionNote, setReflectionNote] = useState('');
+  const [reviewSaving, setReviewSaving] = useState(false);
+  const [reviewMessage, setReviewMessage] = useState('');
+
+  useEffect(() => {
+    if (log) {
+      setMood(log.mood || '');
+      setProductivityScore(log.productivityScore || null);
+      setReflectionNote(log.reflectionNote || '');
+    }
+  }, [log]);
+
+  const handleSaveReview = async () => {
+    setReviewSaving(true);
+    setReviewMessage('');
+    try {
+      const response = await api.patch(`/api/daylog/${todayStr}/review`, {
+        mood,
+        productivityScore,
+        reflectionNote
+      });
+      setLog(response.data);
+      setReviewMessage('Reflections saved to your life archive! ✨');
+      setTimeout(() => setReviewMessage(''), 4000);
+    } catch (err) {
+      console.error('Error saving review:', err);
+      setError('Could not save your daily reflections.');
+    } finally {
+      setReviewSaving(false);
+    }
+  };
 
   // 1. Get today's local date in YYYY-MM-DD
   const getTodayDateStr = () => {
@@ -227,6 +260,109 @@ const Dashboard = () => {
             className="bg-gradient-to-r from-[#00e5a0] to-[#00bc7f] h-full rounded-full transition-all duration-500 ease-out"
             style={{ width: `${progressPercent}%` }}
           />
+        </div>
+      </div>
+
+      {/* End of Day Review */}
+      <div className="bg-white dark:bg-[#161b24] border border-slate-200 dark:border-[#1e2530] rounded-3xl p-6 shadow-sm mb-8">
+        <h3 className="text-lg font-bold text-slate-800 dark:text-[#e2e8f0] mb-4 flex items-center">
+          Reflect on Today 🌟
+        </h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Mood Select */}
+          <div>
+            <label className="block text-xs font-bold text-slate-400 dark:text-[#64748b] uppercase tracking-wider mb-2.5">
+              How was your mood today?
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { val: 'focused', label: '🧠 Focused' },
+                { val: 'energetic', label: '⚡ Energetic' },
+                { val: 'tired', label: '🥱 Tired' },
+                { val: 'stressed', label: '😰 Stressed' },
+                { val: 'okay', label: '😌 Okay' }
+              ].map((item) => (
+                <button
+                  key={item.val}
+                  onClick={() => setMood(item.val)}
+                  className={`px-3 py-2 text-sm font-semibold rounded-xl border transition-all duration-200 ${
+                    mood === item.val
+                      ? 'bg-[#00e5a0]/15 text-[#00e5a0] border-[#00e5a0]/30 scale-105'
+                      : 'bg-slate-50 dark:bg-[#0a0c10] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-[#1e2530] hover:bg-slate-100 dark:hover:bg-[#1e2530]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Productivity Select */}
+          <div>
+            <label className="block text-xs font-bold text-slate-400 dark:text-[#64748b] uppercase tracking-wider mb-2.5">
+              Rate your productivity (1 - 10)
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                <button
+                  key={num}
+                  onClick={() => setProductivityScore(num)}
+                  className={`w-9 h-9 flex items-center justify-center text-sm font-extrabold rounded-xl border transition-all duration-200 ${
+                    productivityScore === num
+                      ? 'bg-[#00e5a0] text-black border-[#00e5a0] scale-105 shadow-md shadow-[#00e5a0]/20'
+                      : 'bg-slate-50 dark:bg-[#0a0c10] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-[#1e2530] hover:bg-slate-100 dark:hover:bg-[#1e2530]'
+                  }`}
+                >
+                  {num}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Reflection Note */}
+        <div className="mt-6">
+          <label className="block text-xs font-bold text-slate-400 dark:text-[#64748b] uppercase tracking-wider mb-2">
+            Daily Reflection Note (Short personal archive note)
+          </label>
+          <textarea
+            value={reflectionNote}
+            onChange={(e) => setReflectionNote(e.target.value)}
+            placeholder="What made today memorable? Add notes about your study wins, challenges faced, or key lessons..."
+            className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0c10] border border-slate-200 dark:border-[#1e2530] rounded-2xl text-slate-800 dark:text-[#e2e8f0] placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-[#00e5a0] outline-none h-20 resize-none transition-all duration-200"
+          />
+        </div>
+
+        <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-5 border-t border-slate-100 dark:border-[#1e2530]">
+          <p className="text-xs font-semibold text-slate-400 dark:text-[#64748b]">
+            {productivityScore && (
+              <span className="text-[#00e5a0] font-bold">
+                {productivityScore >= 9
+                  ? 'Unstoppable day! 🔥'
+                  : productivityScore >= 7
+                  ? 'Great effort! 👍'
+                  : productivityScore >= 5
+                  ? 'Steady progress! 📈'
+                  : 'Time to rest and recharge. 🔋'}
+              </span>
+            )}
+            {!productivityScore && 'Select options above to record reflections.'}
+          </p>
+          <div className="flex items-center space-x-3">
+            {reviewMessage && (
+              <span className="text-xs font-bold text-[#00e5a0] animate-pulse">
+                {reviewMessage}
+              </span>
+            )}
+            <button
+              onClick={handleSaveReview}
+              disabled={reviewSaving || (!mood && !productivityScore && !reflectionNote)}
+              className="px-5 py-2.5 text-xs font-extrabold bg-[#00e5a0] hover:bg-[#00c98c] disabled:bg-slate-200 dark:disabled:bg-[#1e2530] disabled:text-slate-400 dark:disabled:text-slate-600 text-black rounded-xl shadow-md transition-all duration-200"
+            >
+              {reviewSaving ? 'Saving...' : 'Save Reflections ✨'}
+            </button>
+          </div>
         </div>
       </div>
 

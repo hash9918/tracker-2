@@ -54,6 +54,21 @@ const DayLogSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    mood: {
+      type: String,
+      enum: ['focused', 'okay', 'tired', 'stressed', 'energetic', ''],
+      default: '',
+    },
+    productivityScore: {
+      type: Number,
+      min: 1,
+      max: 10,
+      default: null,
+    },
+    reflectionNote: {
+      type: String,
+      default: '',
+    },
   },
   {
     timestamps: true,

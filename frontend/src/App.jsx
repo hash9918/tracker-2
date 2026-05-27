@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard';
 import ScheduleBuilder from './pages/ScheduleBuilder';
 import HeatmapView from './pages/HeatmapView';
 import Backlog from './pages/Backlog';
+import HistoryReplay from './pages/HistoryReplay';
+import WeeklyReview from './pages/WeeklyReview';
 
 const App = () => {
   return (
@@ -25,6 +27,8 @@ const App = () => {
             <Route path="/schedule" element={<ScheduleBuilder />} />
             <Route path="/heatmap" element={<HeatmapView />} />
             <Route path="/backlog" element={<Backlog />} />
+            <Route path="/history" element={<HistoryReplay />} />
+            <Route path="/weekly" element={<WeeklyReview />} />
           </Route>
 
           {/* Fallback Redirects */}
