@@ -38,9 +38,10 @@ StudyTracker is a modern, responsive **MERN (MongoDB, Express, React, Node.js)**
   - Secure passwords hashed with `bcryptjs`.
   - Upgraded signup form featuring strict password match verification.
 
-- 🎨 **Premium Modern Design System:**
-  - Stunning Tailwind CSS layout styled with deep space colors (`bg-[#0a0c10]`).
-  - High-fidelity visual components, responsive hamburger menu, and modern CSS micro-animations.
+- 🎨 **Premium Modern Design System & Theme Engine:**
+  - Full, seamless toggle support between a deep space dark mode (`bg-[#0a0c10]`) and a clean, high-contrast light mode (`bg-slate-50`).
+  - Styled with beautiful Tailwind CSS variables, sleek glassmorphism, responsive components, and fluid micro-animations.
+  - Automatically remembers the user's theme preference via local storage state syncing.
 
 ---
 
