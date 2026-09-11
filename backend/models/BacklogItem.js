@@ -21,6 +21,31 @@ const BacklogItemSchema = new mongoose.Schema(
       type: String,
       default: '#3b82f6',
     },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
+    completedAt: {
+      type: Date,
+      default: null,
+    },
+    tasks: [
+      {
+        text: {
+          type: String,
+          trim: true,
+          required: true,
+        },
+        completed: {
+          type: Boolean,
+          default: false,
+        },
+        completedAt: {
+          type: Date,
+          default: null,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
