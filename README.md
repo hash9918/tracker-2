@@ -1,15 +1,12 @@
 # ⚡ StudyTracker - Visual Tasks & Consistency Tracker
 
-StudyTracker is a modern, responsive **MERN (MongoDB, Express, React, Node.js)** web application designed to help students and developers plan their weekly schedules, track daily task completion, and visually monitor long-term consistency via a GitHub-style contribution heatmap. Built with a sleek dark-mode glassmorphism interface, it features a live-sync system between templated schedules and daily day logs, daily streaks, automated category-wise task management, and robust JWT authentication.
+StudyTracker is a modern, responsive **MERN (MongoDB, Express, React, Node.js)** web application designed to help students and developers plan their weekly schedules, track daily task completion, archive future goals with time-to-completion metrics, and visually monitor long-term consistency via a GitHub-style contribution heatmap. Built with a sleek dark-mode glassmorphism interface, it features a live-sync system between templated schedules and daily day logs, daily streaks, automated category-wise task management, Future Vault goal tracking, and robust JWT authentication.
 
 ---
 
 ## 🚀 Live Demo & Deployment
 
-🔗 **Live Link:** [ https://tracker-2-beta.vercel.app ]()
-🔗 **Server Link:** [ https://tracker-2-3wsf.onrender.com ] 
-
-
+🔗 **Live Link:** [https://tracker-2-beta.vercel.app](https://tracker-2-beta.vercel.app)  
 
 ---
 
@@ -18,41 +15,51 @@ StudyTracker is a modern, responsive **MERN (MongoDB, Express, React, Node.js)**
 - 📅 **Interactive Daily Dashboard:**
   - View today's schedule synced automatically from your weekly template.
   - Interactive checkboxes to mark tasks as completed in real time.
-  - Live local clock for accurate focus timing.
-  - Interactive **Daily Streak Counter** to motivate daily study habits.
-  
+  - Daily check-in system with mood selection, productivity score ratings, and reflection notes.
+  - Interactive **Daily Streak Counter** and live focus clocks to motivate consistent study habits.
+
+- 🔮 **Future Vault (Backlog & Long-Term Goals):**
+  - **Full Task Visibility:** Break big aspirations into structured checklists and subtasks without truncation or clipping.
+  - **Expandable & Scrollable Views:** Smooth scrollbars and expandable note toggles so all tasks remain completely visible regardless of count.
+  - **Interactive Subtask Checklists:** Real-time completion checkboxes with dynamic progress bars (`3/5 tasks done • 60%`).
+  - **Quick Inline Task Adding:** Instantly append tasks directly onto any vault card.
+  - **Done / Completion Marking:** Quick-toggle vault completion status with custom `Done` badges and celebrating visual cues.
+  - **Time-to-Completion Tracking:** Automatically tracks the exact duration taken from vault creation (`createdAt`) to completion (`completedAt`) (e.g., `⚡ Completed in 2 days 4 hours`).
+  - **Status Filter Tabs:** Filter vaults effortlessly across **All**, **Active**, and **Completed** with live count badges.
+
 - 🛠️ **Weekly Schedule Template Builder:**
-  - Plan your recurring weekly tasks and schedule slots dynamically.
-  - Choose between customized task durations and categorizations.
+  - Plan recurring weekly tasks and schedule slots dynamically.
+  - Choose between customized task durations, colors, and categorizations.
   - Automatic template syncing that updates existing active daily schedules.
 
-- 📊 **GitHub-style Contribution Heatmap:**
-  - Beautiful visual consistency grid powered by `react-calendar-heatmap`.
-  - Detailed analytics panel displaying:
-    - Total completed tasks.
-    - Historical active days.
-    - Streak milestones.
+- 📊 **GitHub-style Contribution Heatmap & Analytics:**
+  - Visual consistency grid powered by `react-calendar-heatmap`.
+  - Detailed analytics panel displaying total completed tasks, historical active days, and streak milestones.
+
+- 🔁 **History Replay & Weekly Review:**
+  - Review historical logs, past day performances, and reflection notes across previous weeks.
 
 - 🔒 **Secure Auth & Session Management:**
   - JSON Web Token (JWT) session persistence.
   - Secure passwords hashed with `bcryptjs`.
-  - Upgraded signup form featuring strict password match verification.
+  - Sign up with strict password match verification.
 
 - 🎨 **Premium Modern Design System & Theme Engine:**
-  - Full, seamless toggle support between a deep space dark mode (`bg-[#0a0c10]`) and a clean, high-contrast light mode (`bg-slate-50`).
-  - Styled with beautiful Tailwind CSS variables, sleek glassmorphism, responsive components, and fluid micro-animations.
-  - Automatically remembers the user's theme preference via local storage state syncing.
+  - Full toggle support between deep space dark mode (`bg-[#0a0c10]`) and clean light mode (`bg-slate-50`).
+  - Styled with Tailwind CSS, sleek glassmorphism, responsive components, and micro-animations.
+  - Remembers theme preferences via local storage.
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework:** React 18 (Vite-powered for rapid hot module replacement)
+- **Framework:** React 18 (Vite-powered for lightning-fast development)
 - **Styling:** Tailwind CSS, PostCSS, Autoprefixer
 - **Icons:** Lucide React
 - **Analytics Visualization:** React Calendar Heatmap
 - **Routing:** React Router DOM (v6)
+- **HTTP Client:** Axios
 
 ### Backend
 - **Runtime Environment:** Node.js, Express.js
@@ -65,12 +72,12 @@ StudyTracker is a modern, responsive **MERN (MongoDB, Express, React, Node.js)**
 ## 📁 Repository Structure
 
 ```text
-test-tracker/
+tasksTracker/
 ├── backend/
-│   ├── config/            # Database connection configuration
-│   ├── middleware/        # JWT Authentication middleware
-│   ├── models/            # Mongoose schemas (User, DayLog, ScheduleTemplate)
-│   ├── routes/            # Express routes (auth, daylog, heatmap, template)
+│   ├── config/            # Database connection configuration (db.js)
+│   ├── middleware/        # JWT Authentication middleware (auth.js)
+│   ├── models/            # Mongoose schemas (User, DayLog, ScheduleTemplate, BacklogItem)
+│   ├── routes/            # Express routes (auth, backlog, daylog, heatmap, template)
 │   ├── server.js          # Backend entry point
 │   ├── package.json       # Backend dependencies & scripts
 │   └── .gitignore
@@ -78,8 +85,16 @@ test-tracker/
 │   ├── public/
 │   ├── src/
 │   │   ├── components/    # Reusable UI elements (Navbar, ProtectedRoute)
-│   │   ├── context/       # React Context (AuthContext for user sessions)
-│   │   ├── pages/         # Page components (Dashboard, HeatmapView, Login, Register, ScheduleBuilder)
+│   │   ├── context/       # React Context (AuthContext for user sessions & API client)
+│   │   ├── pages/         # Page components
+│   │   │   ├── Backlog.jsx        # Future Vault page (Goals, Subtasks & Time Tracking)
+│   │   │   ├── Dashboard.jsx      # Daily Dashboard & Check-ins
+│   │   │   ├── HeatmapView.jsx    # Contribution Heatmap & Stats
+│   │   │   ├── HistoryReplay.jsx  # Past Activity Replay
+│   │   │   ├── Login.jsx          # Login Page
+│   │   │   ├── Register.jsx       # Registration Page
+│   │   │   ├── ScheduleBuilder.jsx# Weekly Template Builder
+│   │   │   └── WeeklyReview.jsx   # Weekly Reflections & Review
 │   │   ├── App.jsx        # Route handling & primary wrapper
 │   │   ├── index.css      # Core design system stylesheet & Tailwind configurations
 │   │   └── main.jsx       # Client entry point
@@ -103,7 +118,7 @@ Follow these steps to run **StudyTracker** locally:
 ### 2. Clone the Repository
 ```bash
 git clone https://github.com/hash9918/tracker-2.git
-cd test-tracker
+cd tracker-2
 ```
 
 ### 3. Backend Setup
@@ -136,8 +151,7 @@ cd test-tracker
    ```bash
    npm install
    ```
-3. Create a `.env` file or verify that your API calls point correctly to `http://localhost:5000`. By default, API calls are configured to communicate with the local server port.
-4. Start the frontend development server:
+3. Start the frontend development server:
    ```bash
    npm run dev
    ```
@@ -150,20 +164,29 @@ cd test-tracker
 ### 🔐 Authentication (`/api/auth`)
 - `POST /api/auth/register` - Create a new user account.
 - `POST /api/auth/login` - Authenticate a user and return a JWT token.
-- `GET /api/auth/user` - Retrieve details of the currently authenticated user (*requires auth header*).
+- `GET /api/auth/user` - Retrieve details of the currently authenticated user (*requires auth*).
+
+### 🔮 Future Vault (`/api/backlog`)
+- `GET /api/backlog` - Fetch all vault items for the authenticated user (*requires auth*).
+- `POST /api/backlog` - Create a new vault item with optional subtasks checklist (*requires auth*).
+- `PUT /api/backlog/:id` - Update vault title, description, color, tasks, or completion status (*requires auth*).
+- `PATCH /api/backlog/:id/toggle` - Quick-toggle entire vault completion status and record `completedAt` (*requires auth*).
+- `POST /api/backlog/:id/tasks` - Append a new subtask to an existing vault (*requires auth*).
+- `PATCH /api/backlog/:id/tasks/:taskIndex/toggle` - Toggle individual subtask completion in a vault (*requires auth*).
+- `DELETE /api/backlog/:id` - Remove a vault item (*requires auth*).
 
 ### 📋 Schedule Templates (`/api/template`)
-- `GET /api/template` - Get the current user's weekly template schedule (*requires auth header*).
-- `POST /api/template` - Create or update weekly recurring schedule blocks (*requires auth header*).
+- `GET /api/template` - Get current user's weekly template schedule (*requires auth*).
+- `POST /api/template` - Create or update weekly recurring schedule blocks (*requires auth*).
 
 ### 📅 Daily Logs (`/api/daylog`)
-- `GET /api/daylog/today` - Fetch today's schedule and task status list (*requires auth header*).
-- `POST /api/daylog/today` - Auto-initialize or force-sync the daily snapshot using the weekly template (*requires auth header*).
-- `PATCH /api/daylog/:dayLogId/task/:taskId` - Toggle a specific task block's completion status (*requires auth header*).
+- `GET /api/daylog/:date` - Fetch a specific day's schedule and check-in status (*requires auth*).
+- `POST /api/daylog/:date` - Auto-initialize or force-sync the daily snapshot using the weekly template (*requires auth*).
+- `PATCH /api/daylog/:date/block/:blockId` - Toggle a specific task block's completion status (*requires auth*).
+- `PATCH /api/daylog/:date/review` - Save daily mood, productivity rating, and reflection notes (*requires auth*).
 
 ### 📊 Heatmap & Analytics (`/api/heatmap`)
-- `GET /api/heatmap/data` - Retrieve activity tracking dates and counts for calendar heatmap visualization (*requires auth header*).
-- `GET /api/heatmap/stats` - Fetch overall consistency statistics including total tasks completed, active streaks, and active day counts (*requires auth header*).
+- `GET /api/heatmap` - Retrieve heatmap contribution matrix, streaks, and total completion counts (*requires auth*).
 
 ---
 
