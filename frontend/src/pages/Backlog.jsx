@@ -317,21 +317,21 @@ const Backlog = () => {
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-0 sm:px-4 py-3 sm:py-8">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
         <div className="flex items-center space-x-3.5">
-          <div className="p-3 bg-[#00e5a0]/10 rounded-2xl border border-[#00e5a0]/20">
-            <Sparkles className="w-7 h-7 text-[#00e5a0]" />
+          <div className="p-3 bg-[#00e5a0]/10 rounded-2xl border border-[#00e5a0]/20 flex-shrink-0">
+            <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-[#00e5a0]" />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-[#e2e8f0] flex items-center gap-2.5">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-800 dark:text-[#e2e8f0] flex items-center gap-2.5">
               Future Vault
               <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#00e5a0]/15 text-[#00e5a0] border border-[#00e5a0]/30">
                 {items.length} {items.length === 1 ? 'Vault' : 'Vaults'}
               </span>
             </h1>
-            <p className="text-sm text-slate-500 dark:text-[#64748b] mt-0.5">
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-[#64748b] mt-0.5">
               A safe space for ideas, goals, and tasks you want to tackle someday. Track progress and time-to-completion!
             </p>
           </div>
@@ -346,9 +346,9 @@ const Backlog = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column: Form Builder */}
-        <div className="bg-white dark:bg-[#161b24] border border-slate-200 dark:border-[#1e2530] rounded-3xl p-6 shadow-sm h-fit sticky top-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Left Column: Form Builder (Static on mobile so vault cards scroll naturally; Sticky on desktop) */}
+        <div className="bg-white dark:bg-[#161b24] border border-slate-200 dark:border-[#1e2530] rounded-3xl p-5 sm:p-6 shadow-sm h-fit static lg:sticky lg:top-24">
           <h3 className="text-lg font-bold text-slate-800 dark:text-[#e2e8f0] mb-5 flex items-center justify-between">
             <span className="flex items-center">
               {editingId ? (
@@ -551,10 +551,10 @@ const Backlog = () => {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex items-center p-1 bg-white dark:bg-[#161b24] border border-slate-200 dark:border-[#1e2530] rounded-2xl shadow-sm self-start sm:self-auto">
+            <div className="grid grid-cols-3 sm:flex items-center p-1 bg-white dark:bg-[#161b24] border border-slate-200 dark:border-[#1e2530] rounded-2xl shadow-sm w-full sm:w-auto">
               <button
                 onClick={() => setFilterTab('all')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   filterTab === 'all'
                     ? 'bg-[#00e5a0] text-black shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -570,7 +570,7 @@ const Backlog = () => {
 
               <button
                 onClick={() => setFilterTab('active')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   filterTab === 'active'
                     ? 'bg-[#00e5a0] text-black shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -586,13 +586,13 @@ const Backlog = () => {
 
               <button
                 onClick={() => setFilterTab('completed')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   filterTab === 'completed'
                     ? 'bg-[#00e5a0] text-black shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
-                Completed
+                Done
                 <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${
                   filterTab === 'completed' ? 'bg-black/15 text-black' : 'bg-slate-100 dark:bg-[#1e2530] text-slate-500'
                 }`}>

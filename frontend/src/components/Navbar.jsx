@@ -169,61 +169,92 @@ const Navbar = () => {
 
         {/* Mobile Nav Links (Only if Logged In) */}
         {user && (
-          <div className="flex md:hidden justify-around pb-3 border-t border-slate-200 dark:border-[#1e2530] pt-2">
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                `flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold ${isActive ? 'bg-[#00e5a0]/10 text-[#00e5a0]' : 'text-slate-600 dark:text-slate-400'
-                }`
-              }
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="/schedule"
-              className={({ isActive }) =>
-                `flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold ${isActive ? 'bg-[#00e5a0]/10 text-[#00e5a0]' : 'text-slate-600 dark:text-slate-400'
-                }`
-              }
-            >
-              Schedule
-            </NavLink>
-            <NavLink
-              to="/heatmap"
-              className={({ isActive }) =>
-                `flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold ${isActive ? 'bg-[#00e5a0]/10 text-[#00e5a0]' : 'text-slate-600 dark:text-slate-400'
-                }`
-              }
-            >
-              Heatmap
-            </NavLink>
-            <NavLink
-              to="/backlog"
-              className={({ isActive }) =>
-                `flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold ${isActive ? 'bg-[#00e5a0]/10 text-[#00e5a0]' : 'text-slate-600 dark:text-slate-400'
-                }`
-              }
-            >
-              Future Vault
-            </NavLink>
-            <NavLink
-              to="/history"
-              className={({ isActive }) =>
-                `flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold ${isActive ? 'bg-[#00e5a0]/10 text-[#00e5a0]' : 'text-slate-600 dark:text-slate-400'
-                }`
-              }
-            >
-              Replay
-            </NavLink>
-            <NavLink
-              to="/weekly"
-              className={({ isActive }) =>
-                `flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold ${isActive ? 'bg-[#00e5a0]/10 text-[#00e5a0]' : 'text-slate-600 dark:text-slate-400'
-                }`
-              }
-            >
-              Weekly
-            </NavLink>
+          <div className="md:hidden border-t border-slate-200 dark:border-[#1e2530] py-2 overflow-hidden">
+            <div className="flex items-center space-x-1.5 overflow-x-auto no-scrollbar scroll-smooth px-1 pb-1">
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
+                    isActive
+                      ? 'bg-[#00e5a0]/15 text-[#00e5a0] border border-[#00e5a0]/30 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#1e2530]'
+                  }`
+                }
+              >
+                <LayoutDashboard className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
+                Dashboard
+              </NavLink>
+
+              <NavLink
+                to="/schedule"
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
+                    isActive
+                      ? 'bg-[#00e5a0]/15 text-[#00e5a0] border border-[#00e5a0]/30 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#1e2530]'
+                  }`
+                }
+              >
+                <Settings className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
+                Schedule
+              </NavLink>
+
+              <NavLink
+                to="/heatmap"
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
+                    isActive
+                      ? 'bg-[#00e5a0]/15 text-[#00e5a0] border border-[#00e5a0]/30 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#1e2530]'
+                  }`
+                }
+              >
+                <Calendar className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
+                Heatmap
+              </NavLink>
+
+              <NavLink
+                to="/backlog"
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
+                    isActive
+                      ? 'bg-[#00e5a0]/15 text-[#00e5a0] border border-[#00e5a0]/30 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#1e2530]'
+                  }`
+                }
+              >
+                <Archive className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
+                Future Vault
+              </NavLink>
+
+              <NavLink
+                to="/history"
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
+                    isActive
+                      ? 'bg-[#00e5a0]/15 text-[#00e5a0] border border-[#00e5a0]/30 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#1e2530]'
+                  }`
+                }
+              >
+                <History className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
+                Replay
+              </NavLink>
+
+              <NavLink
+                to="/weekly"
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all mr-3 ${
+                    isActive
+                      ? 'bg-[#00e5a0]/15 text-[#00e5a0] border border-[#00e5a0]/30 shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#1e2530]'
+                  }`
+                }
+              >
+                <TrendingUp className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
+                Weekly Review
+              </NavLink>
+            </div>
           </div>
         )}
       </div>

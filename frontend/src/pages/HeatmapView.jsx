@@ -64,10 +64,10 @@ const HeatmapView = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-0 sm:px-4 py-2 sm:py-8">
       
       {/* Title */}
-      <div className="flex items-center space-x-3 mb-8">
+      <div className="flex items-center space-x-3 mb-6 sm:mb-8">
         <div className="p-3 bg-[#00e5a0]/10 rounded-2xl">
           <Calendar className="w-6 h-6 text-[#00e5a0]" />
         </div>

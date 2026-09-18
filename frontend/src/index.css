@@ -18,6 +18,15 @@
   background: #64748b;
 }
 
+/* Hide scrollbar for smooth mobile scrolling pill tracks */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Base Light Mode Styles (Toggle support) */
 html:not(.dark) {
   --bg-color: #f8fafc;

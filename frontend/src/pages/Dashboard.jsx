@@ -165,10 +165,10 @@ const Dashboard = () => {
   const progressPercent = log?.completionPercent || 0;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-0 sm:px-4 py-2 sm:py-8">
 
       {/* Greetings Header */}
-      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800 dark:text-[#e2e8f0]">
             {getGreeting()}, <span className="text-[#00e5a0]">{user?.name}</span>
